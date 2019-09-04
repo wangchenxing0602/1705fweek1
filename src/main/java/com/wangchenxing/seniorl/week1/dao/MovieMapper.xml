@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchenxing.seniorl.week1.dao.MovieMapper">
+
+<select id="selectall" resultType="map">
+SELECT a.*,GROUP_CONCAT(dname)dname from movie a LEFT JOIN center b on a.id=b.id LEFT JOIN type c on b.tid=c.tid 
+<where>
+<if test="''!=mohu">
+ and a.name like '%${mohu}%'
+</if>
+</where>
+GROUP BY a.id
+</select>
+<select id="toadd"  resultType="type" >
+select * from type
+</select>
+
+<insert  id="add">
+ <selectKey order="AFTER" keyProperty="id" resultType="int">
+ select LAST_INSERT_ID()
+ </selectKey>
+ insert into movie value(null,#{name},#{con},#{doc},#{date})
+</insert>
+<insert id="addids" >
+ insert into center set id=#{id} ,tid=#{tid}
+</insert>
+<delete id="delcenter">
+delete from center where id in (${id})
+</delete>
+<delete id="del">
+delete from movie where id in (${id}) 
+</delete>
+<select id="selectmovie" resultType="movie">
+select * from movie where id=#{id}
+</select>
+<select id="selectcenter" resultType="map">
+select * from center where id=#{id}
+</select>
+<update id="update">
+update movie set name=#{name},con=#{con},doc=#{doc},date=#{date} where id=#{id}
+</update>
+
+</mapper>
