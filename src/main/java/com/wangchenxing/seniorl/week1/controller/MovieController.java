@@ -28,6 +28,10 @@ public class MovieController {
   private String  selectall(Model m ,@RequestParam(defaultValue="")String mohu,@RequestParam(defaultValue = "1")int pageNum) {
 	  PageHelper.startPage(pageNum,3);
 	  //传入模糊数据
+	  
+	  
+	  
+	  
 	  List list=service.selectall(mohu);
 	  PageInfo info= new PageInfo(list);
 	  m.addAttribute("list",list);
